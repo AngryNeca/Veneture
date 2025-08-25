@@ -1,6 +1,6 @@
 const container = document.querySelector(".container2");
 window.addEventListener("scroll", function() {
-    const triggerPoint = window.innerHeight / 1.3;
+    const triggerPoint = window.innerHeight / 1.5;
     const containerTop = container.getBoundingClientRect().top;
     if (containerTop < triggerPoint) {
         container.classList.add("visible");
@@ -15,7 +15,7 @@ const revealElements=document.querySelectorAll(".reveal");
 window.addEventListener("scroll",function(){
     revealElements.forEach(el =>{
         const rect=el.getBoundingClientRect();
-        const triggerPoint=this.window.innerHeight*0.9;
+        const triggerPoint=this.window.innerHeight*1;
         if(rect.top<triggerPoint){
             el.classList.add("visible");
         }

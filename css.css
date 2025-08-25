@@ -18,8 +18,11 @@ body{
     z-index: 999;
     background-color: white;
     width: 100%;
-    transition: top 0.6s ease-in-out;
+    height: 200px;
+    transition: top 1.5s ease-in-out;
     border-bottom: 2px solid grey;
+    transition: top 1s ease;
+    top: 0;
 }
 .navigator2{
     margin-left: 150px;
@@ -30,7 +33,8 @@ body{
     text-align: center;
 }
 .logo{
-    width: 150px;
+    position: relative;
+    width: 25%;
     height: auto;
 }
 .navigator3{
@@ -107,15 +111,8 @@ a{
     width: 100%;
     height: 1100px;
     background-size: cover;
-    margin-top: 213px;
-    animation: fadeOut 5s linear infinite;
+    margin-top: 200px;
     z-index: 2;
-}
-@keyframes fadeOut{
-    0%{opacity: 0;}
-    5%{opacity: 1;}
-    90%{opacity: 1;}
-    100%{opacity: 0;}
 }
 .container14{
     display: flex;
@@ -299,7 +296,6 @@ f{
 a .picture4:hover{
     animation: uvecaj 0.5s forwards;
 }
-
 hr{
     border: none;
     height: 5px;
@@ -312,21 +308,21 @@ hr{
     gap: 15px;
     justify-content: center;
     position: fixed;
-    margin-top: 20%;
+    top: 40%;
     margin-left: 1%;
-    width: 0px;
     z-index: 3;
 }
 .picture5{
     display: block;
-    width: 40px;
-    height: 40px;
+    position: relative;
+    width: 15%;
+    height: 15%;
 }
 a .picture5:hover{
     animation: uvecaj 0.5s forwards;
 }
 footer{
-    background-color: #004f57;
+    background-color: #003338;
     width: 100%;
     height: 300px;
     display: flex;

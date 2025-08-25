@@ -24,28 +24,35 @@ window.addEventListener("scroll",function(){
 
 const nav = document.querySelector(".navigator1");
 let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-const thresholdDown = 150; // koliko px skrol dole da sakrije
-const thresholdUp = 350;   // koliko px skrol gore da se pojavi
-let accumulatedUp = 0;      // koliko px je korisnik skrolovao gore
+let accumulatedUp = 0;
+const thresholdDown = 200; // px da sakrije
+const thresholdUp = 100;   // px da pokaže
+let ticking = false;
 
-window.addEventListener("scroll", function () {
+window.addEventListener("scroll", () => {
+  if (window.innerWidth < 480) return; // opcionalno: manje ekrane drugačije tretiraj
+
   const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
   const delta = currentScroll - lastScrollTop;
 
-  if (delta > 0 && currentScroll > thresholdDown) {
-    // skroluje na dole → sakrij odmah
-    nav.style.top = "-225px";
-    accumulatedUp = 0; // resetujemo broj skrola gore
-  } else if (delta < 0) {
-    // skroluje na gore → akumuliraj pomak
-    accumulatedUp -= delta; // delta je negativno, pa oduzimamo da bude pozitivno
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      if (delta > 0 && currentScroll > thresholdDown) {
+        // skrol dole → sakrij
+        nav.style.top = "-225px";
+        accumulatedUp = 0;
+      } else if (delta < 0) {
+        // skrol gore → akumuliraj
+        accumulatedUp -= delta;
+        if (accumulatedUp > thresholdUp) {
+          nav.style.top = "0";
+          accumulatedUp = 0;
+        }
+      }
 
-    if (accumulatedUp > thresholdUp) {
-      // tek kad se skrolovalo dovoljno nagore
-      nav.style.top = "0";
-      accumulatedUp = 0; // resetujemo
-    }
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+      ticking = false;
+    });
+    ticking = true;
   }
-
-  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 }, { passive: true });

@@ -30,7 +30,7 @@ const thresholdUp = 100;   // px da pokaže
 let ticking = false;
 
 window.addEventListener("scroll", () => {
-  if (window.innerWidth < 480) return; // opcionalno: manje ekrane drugačije tretiraj
+  if (window.innerWidth < 768) return; // opcionalno: manje ekrane drugačije tretiraj
 
   const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
   const delta = currentScroll - lastScrollTop;

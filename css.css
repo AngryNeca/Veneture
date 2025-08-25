@@ -22,6 +22,7 @@ body{
     transition: top 0.8s ease-in-out;
     border-bottom: 2px solid grey;
     top: 0;
+    will-change: top;   
 }
 .navigator2{
     margin-left: 150px;

@@ -22,19 +22,30 @@ window.addEventListener("scroll",function(){
     });
 });
 
-const navigator1 = document.querySelector(".navigator1");
-let showTimeout;
+const nav = document.querySelector(".navigator1");
+let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+const thresholdDown = 150; // koliko px skrol dole da sakrije
+const thresholdUp = 350;   // koliko px skrol gore da se pojavi
+let accumulatedUp = 0;      // koliko px je korisnik skrolovao gore
 
-window.addEventListener("wheel", (e) => {
-    if (e.deltaY > 0) {
-        // Scroll down → sakrij odmah
-        navigator1.style.top = "-225px";
-        clearTimeout(showTimeout);
-    } else if (e.deltaY < 0) {
-        // Scroll up → pojavi posle 0.5s
-        clearTimeout(showTimeout);
-        showTimeout = setTimeout(() => {
-            navigator1.style.top = "0";
-        }, 200);
+window.addEventListener("scroll", function () {
+  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+  const delta = currentScroll - lastScrollTop;
+
+  if (delta > 0 && currentScroll > thresholdDown) {
+    // skroluje na dole → sakrij odmah
+    nav.style.top = "-225px";
+    accumulatedUp = 0; // resetujemo broj skrola gore
+  } else if (delta < 0) {
+    // skroluje na gore → akumuliraj pomak
+    accumulatedUp -= delta; // delta je negativno, pa oduzimamo da bude pozitivno
+
+    if (accumulatedUp > thresholdUp) {
+      // tek kad se skrolovalo dovoljno nagore
+      nav.style.top = "0";
+      accumulatedUp = 0; // resetujemo
     }
-});
+  }
+
+  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+}, { passive: true });

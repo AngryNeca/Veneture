@@ -5,17 +5,25 @@
 <button id="login">Login</button>
 
 <script type="module">
-  // ✅ Svi importi na jednom mestu
-  import { 
-    getAuth, 
-    signInWithPopup, 
-    GoogleAuthProvider, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword 
-  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  // ✅ Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-  // Inicijalizacija Firebase auth (pretpostavljam da si gore već stavio initializeApp(firebaseConfig))
-  const auth = getAuth();
+  // ✅ Tvoj config iz Firebase konzole
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
+    authDomain: "login-eb99f.firebaseapp.com",
+    projectId: "login-eb99f",
+    storageBucket: "login-eb99f.firebasestorage.app",
+    messagingSenderId: "949710857431",
+    appId: "1:949710857431:web:827bda1f200ff8923ffc92",
+    measurementId: "G-X78MP0X3G2"
+  };
+
+  // ✅ Inicijalizacija Firebase app-a i auth-a
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
   // Google login
   const provider = new GoogleAuthProvider();
@@ -27,6 +35,7 @@
       })
       .catch((error) => {
         console.error(error);
+        alert("Greška: " + error.message);
       });
   });
 

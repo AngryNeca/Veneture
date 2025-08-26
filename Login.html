@@ -1,0 +1,56 @@
+<button id="googleLogin">Sign up with Google</button>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button id="register">Register</button>
+<button id="login">Login</button>
+
+<script type="module">
+  // ✅ Svi importi na jednom mestu
+  import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword 
+  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+  // Inicijalizacija Firebase auth (pretpostavljam da si gore već stavio initializeApp(firebaseConfig))
+  const auth = getAuth();
+
+  // Google login
+  const provider = new GoogleAuthProvider();
+  document.getElementById("googleLogin").addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        alert("Ulogovan kao: " + user.email);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+  // Email registracija
+  document.getElementById("register").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then((userCredential) => {
+        alert("Registrovan: " + userCredential.user.email);
+      })
+      .catch((err) => alert(err.message));
+  });
+
+  // Email login
+  document.getElementById("login").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, pass)
+      .then((userCredential) => {
+        alert("Ulogovan: " + userCredential.user.email);
+      })
+      .catch((err) => alert(err.message));
+  });
+</script>

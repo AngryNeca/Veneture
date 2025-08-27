@@ -56,3 +56,52 @@ window.addEventListener("scroll", () => {
     ticking = true;
   }
 }, { passive: true });
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Ako je ulogovan
+    document.getElementById("loginLink").style.display = "none";
+    document.getElementById("userMenu").style.display = "flex";
+
+    const name = user.displayName ? user.displayName : user.email;
+    document.getElementById("userName").innerText = `Hello, ${name}`;
+
+    if (user.photoURL) {
+      document.getElementById("userPic").src = user.photoURL;
+    }
+  } else {
+    // Ako nije ulogovan
+    document.getElementById("loginLink").style.display = "flex";
+    document.getElementById("userMenu").style.display = "none";
+  }
+});
+
+  import { getAuth, onAuthStateChanged, signOut } from 
+  "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const auth = getAuth();
+
+  // Proveravamo da li je korisnik ulogovan
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Ako je ulogovan
+      document.getElementById("userMenu").style.display = "flex";
+
+      // Ako ima displayName (npr. preko Google/Facebook) uzimamo to ime
+      // Ako nema, uzimamo email
+      const name = user.displayName ? user.displayName : user.email;
+      document.getElementById("userName").innerText = `Hello, ${name}`;
+    } else {
+      // Ako nije ulogovan, sakrij user meni i prikaži login link
+      document.getElementById("userMenu").style.display = "none";
+    }
+  });
+
+  // Logout dugme
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth).then(() => {
+      alert("Logged out!");
+    }).catch((error) => {
+      console.error(error);
+    });
+  });

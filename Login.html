@@ -35,16 +35,6 @@
       .catch((err) => alert(err.message));
   });
 
-  // ============ FACEBOOK LOGIN ============
-  const fbProvider = new FacebookAuthProvider();
-  document.getElementById("facebookLogin").addEventListener("click", () => {
-    signInWithPopup(auth, fbProvider)
-      .then((result) => {
-        alert("Facebook login: " + result.user.displayName);
-      })
-      .catch((err) => alert(err.message));
-  });
-
   // ============ EMAIL/PASSWORD LOGIN ============
   document.getElementById("emailPasswordLogin").addEventListener("click", () => {
     const email = prompt("Unesi email:");
@@ -57,3 +47,4 @@
       .catch((err) => alert(err.message));
   });
 </script>
+

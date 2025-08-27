@@ -1,64 +1,58 @@
-<button id="googleLogin">Sign up with Google</button>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<button id="register">Register</button>
-<button id="login">Login</button>
+<button id="googleLogin">Continue with Google</button>
+<button id="facebookLogin">Continue with Facebook</button>
+<button id="emailPasswordLogin">Continue with Email/Password</button>
 
 <script type="module">
-  // ✅ Import Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-  // ✅ Tvoj config iz Firebase konzole
+  // 🔹 Tvoj Firebase config
   const firebaseConfig = {
-    apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
-    authDomain: "login-eb99f.firebaseapp.com",
-    projectId: "login-eb99f",
-    storageBucket: "login-eb99f.firebasestorage.app",
-    messagingSenderId: "949710857431",
-    appId: "1:949710857431:web:827bda1f200ff8923ffc92",
-    measurementId: "G-X78MP0X3G2"
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    projectId: "PROJECT_ID",
+    storageBucket: "PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
   };
 
-  // ✅ Inicijalizacija Firebase app-a i auth-a
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Google login
-  const provider = new GoogleAuthProvider();
+  // ============ GOOGLE LOGIN ============
+  const googleProvider = new GoogleAuthProvider();
   document.getElementById("googleLogin").addEventListener("click", () => {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, googleProvider)
       .then((result) => {
-        const user = result.user;
-        alert("Ulogovan kao: " + user.email);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Greška: " + error.message);
-      });
-  });
-
-  // Email registracija
-  document.getElementById("register").addEventListener("click", () => {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-        alert("Registrovan: " + userCredential.user.email);
+        alert("Google login: " + result.user.email);
       })
       .catch((err) => alert(err.message));
   });
 
-  // Email login
-  document.getElementById("login").addEventListener("click", () => {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
+  // ============ FACEBOOK LOGIN ============
+  const fbProvider = new FacebookAuthProvider();
+  document.getElementById("facebookLogin").addEventListener("click", () => {
+    signInWithPopup(auth, fbProvider)
+      .then((result) => {
+        alert("Facebook login: " + result.user.displayName);
+      })
+      .catch((err) => alert(err.message));
+  });
+
+  // ============ EMAIL/PASSWORD LOGIN ============
+  document.getElementById("emailPasswordLogin").addEventListener("click", () => {
+    const email = prompt("Unesi email:");
+    const pass = prompt("Unesi lozinku:");
 
     signInWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-        alert("Ulogovan: " + userCredential.user.email);
+      .then((result) => {
+        alert("Login: " + result.user.email);
       })
       .catch((err) => alert(err.message));
   });

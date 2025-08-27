@@ -34,17 +34,3 @@
       })
       .catch((err) => alert(err.message));
   });
-
-  // ============ EMAIL/PASSWORD LOGIN ============
-  document.getElementById("emailPasswordLogin").addEventListener("click", () => {
-    const email = prompt("Unesi email:");
-    const pass = prompt("Unesi lozinku:");
-
-    signInWithEmailAndPassword(auth, email, pass)
-      .then((result) => {
-        alert("Login: " + result.user.email);
-      })
-      .catch((err) => alert(err.message));
-  });
-</script>
-

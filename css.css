@@ -101,7 +101,7 @@ a{
     width: 20px;
     height: 20px;
     margin-top:50px;
-    margin-left: 20px;
+    margin-left: 5px;
 }
 .pointer-down1{
     width: 20px;
@@ -112,6 +112,7 @@ a{
 .dropdown{
     display: flex;
     justify-content: space-evenly;
+    margin-top:20px;
 }
 .dropdown-menu{
     display: none;

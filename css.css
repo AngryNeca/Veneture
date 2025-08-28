@@ -97,10 +97,16 @@ a{
     color: black;
     display: flex;
 }
-.pointer-down{
+.pointer-down1{
     width: 20px;
     height: 20px;
-    margin-top:30px;
+    margin-top:20px;
+    margin-left: 20px;
+}
+.pointer-down2{
+    width: 20px;
+    height: 20px;
+    margin-top:50px;
     margin-left: 20px;
 }
 .dropdown{

@@ -105,13 +105,12 @@ a{
 .pointer-down1{
     width: 20px;
     height: 20px;
-    margin-top:20px;
+    margin-top:50px;
     margin-left: 20px;
 }
 .dropdown{
     display: flex;
     justify-content: space-evenly;
-    margin-top:20px;
 }
 .dropdown-menu{
     display: none;

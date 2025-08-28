@@ -1,55 +1,49 @@
-<button id="googleLogin">Continue with Google</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login Page</h2>
+  <button id="googleLogin">Continue with Google</button>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import { 
-    getAuth, 
-    signInWithPopup, 
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithPopup, 
+      GoogleAuthProvider 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-  // 🔹 Firebase config
+    // 🔹 Firebase config
     const firebaseConfig = {
-    apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
-    authDomain: "login-eb99f.firebaseapp.com",
-    projectId: "login-eb99f",
-    storageBucket: "login-eb99f.firebasestorage.app",
-    messagingSenderId: "949710857431",
-    appId: "1:949710857431:web:827bda1f200ff8923ffc92",
-    measurementId: "G-X78MP0X3G2"
-  };
+      apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
+      authDomain: "login-eb99f.firebaseapp.com",
+      projectId: "login-eb99f",
+      storageBucket: "login-eb99f.firebasestorage.app",
+      messagingSenderId: "949710857431",
+      appId: "1:949710857431:web:827bda1f200ff8923ffc92",
+      measurementId: "G-X78MP0X3G2"
+    };
 
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // ============ GOOGLE LOGIN ============
-  const googleProvider = new GoogleAuthProvider();
-  document.getElementById("googleLogin").addEventListener("click", () => {
-    signInWithPopup(auth, googleProvider)
-      .catch((err) => alert(err.message));
-  });
-
-  // ============ PRAĆENJE STANJA ============
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // Ako je ulogovan
-      document.getElementById("loginLink").style.display = "none";
-      document.getElementById("userMenu").style.display = "flex";
-      document.getElementById("userName").innerText = `Hello, ${user.displayName || user.email}`;
-      if (user.photoURL) document.getElementById("userPic").src = user.photoURL;
-    } else {
-      // Ako nije ulogovan
-      document.getElementById("loginLink").style.display = "flex";
-      document.getElementById("userMenu").style.display = "none";
-    }
-  });
-
-  // ============ LOGOUT ============
-  document.getElementById("logoutBtn").addEventListener("click", (e) => {
-    e.preventDefault(); // da ne refresuje stranicu
-    signOut(auth).catch((error) => console.error(error));
-  });
-</script>
+    // Klik na dugme
+    document.getElementById("googleLogin").addEventListener("click", () => {
+      signInWithPopup(auth, googleProvider)
+        .then(() => {
+          // ✅ Kad se uloguje, prebaci na index.html
+          window.location.href = "index.html";
+        })
+        .catch((err) => {
+          console.error("Google login error:", err);
+          alert(err.message);
+        });
+    });
+  </script>
+</body>
+</html>

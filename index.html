@@ -143,7 +143,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-
   // 👤 Praćenje usera
   onAuthStateChanged(auth, (user) => {
     if (user) {

@@ -42,7 +42,6 @@ body{
 .user-menu {
     display: flex;
     align-items: center;
-    gap: 10px;
     margin-top: -100px;
 }
 
@@ -100,8 +99,8 @@ a{
 .pointer-down{
     width: 20px;
     height: 20px;
-    margin-top:50px;
-    margin-left: 5px;
+    margin-top:40px;
+    margin-left: -20px;
 }
 .pointer-down1{
     width: 20px;

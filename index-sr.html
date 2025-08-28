@@ -19,12 +19,22 @@
                 <p>Lorem.</p>
             </div>
         </div>
-            <a href="Login.html" class="login">
-                <img src="profile-pic.png" class="profile-pic">
-                <div class="text1">Log in</div>
-            </a>
+        <a href="Login.html" id="loginLink" class="login">
+            <img src="profile-pic.png" class="profile-pic">
+            <div class="text1">Log in</div>
+        </a>
+        <div class="user-menu" id="userMenu" style="display:flex;">
+            <img src="profile-pic.png" class="profile-pic" id="userPic">
+            <div class="text1" id="userName">Hello, User</div>
             <div class="dropdown">
                 <img class="pointer-down" src="down-arrow.png">
+                <div class="dropdown-menu">
+                    <a href="#" id="logoutBtn"><div class="text2">Log out</div></a>
+                </div>
+            </div>
+        </div>
+            <div class="dropdown">
+                <img class="pointer-down1" src="down-arrow.png">
                 <div class="text1"><a href="#">Sr</a></div>
                 <div class="dropdown-menu">
                     <a href="index.html"><div class="text2">En</div></a>
@@ -32,7 +42,7 @@
             </div>
     </div>
     <div class="container1">
-        <video autoplay muted loop playsinline class="bg-video">
+        <video autoplay muted loop playsinline preload="auto" class="bg-video">
             <source src="video.mp4" type="video/mp4">
         </video>
         <div class="text3">VENETURE</div>
@@ -111,3 +121,44 @@
     </footer>
 </body>
 </html>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signOut 
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
+    authDomain: "login-eb99f.firebaseapp.com",
+    projectId: "login-eb99f",
+    storageBucket: "login-eb99f.firebasestorage.app",
+    messagingSenderId: "949710857431",
+    appId: "1:949710857431:web:827bda1f200ff8923ffc92",
+    measurementId: "G-X78MP0X3G2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 👤 Praćenje usera
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("loginLink").style.display = "none";
+      document.getElementById("userMenu").style.display = "flex";
+      document.getElementById("userName").innerText = `Hello, ${user.displayName || user.email}`;
+      if (user.photoURL) document.getElementById("userPic").src = user.photoURL;
+    } else {
+      document.getElementById("loginLink").style.display = "flex";
+      document.getElementById("userMenu").style.display = "none";
+    }
+  });
+
+  // 🚪 Logout
+  document.getElementById("logoutBtn").addEventListener("click", (e) => {
+    e.preventDefault();
+    signOut(auth).catch((error) => console.error(error));
+  });
+</script>

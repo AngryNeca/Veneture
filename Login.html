@@ -6,11 +6,11 @@
     getAuth, 
     signInWithPopup, 
     GoogleAuthProvider,
-    FacebookAuthProvider,
-    signInWithEmailAndPassword
+    onAuthStateChanged,
+    signOut
   } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-  // 🔹 Tvoj Firebase config
+  // 🔹 Firebase config
   const firebaseConfig = {
     apiKey: "API_KEY",
     authDomain: "PROJECT_ID.firebaseapp.com",
@@ -27,8 +27,27 @@
   const googleProvider = new GoogleAuthProvider();
   document.getElementById("googleLogin").addEventListener("click", () => {
     signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        alert("Google login: " + result.user.email);
-      })
       .catch((err) => alert(err.message));
   });
+
+  // ============ PRAĆENJE STANJA ============
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Ako je ulogovan
+      document.getElementById("loginLink").style.display = "none";
+      document.getElementById("userMenu").style.display = "flex";
+      document.getElementById("userName").innerText = `Hello, ${user.displayName || user.email}`;
+      if (user.photoURL) document.getElementById("userPic").src = user.photoURL;
+    } else {
+      // Ako nije ulogovan
+      document.getElementById("loginLink").style.display = "flex";
+      document.getElementById("userMenu").style.display = "none";
+    }
+  });
+
+  // ============ LOGOUT ============
+  document.getElementById("logoutBtn").addEventListener("click", (e) => {
+    e.preventDefault(); // da ne refresuje stranicu
+    signOut(auth).catch((error) => console.error(error));
+  });
+</script>

@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Login</title>
-</head>
-<body>
-  <button id="googleLogin">Continue with Google</button>
+<button id="googleLogin">Continue with Google</button>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider }
-  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
   import { getAnalytics } from "firebase/analytics";
   const analytics = getAnalytics(app);
-  // Tvoj config (ovaj deo kopiraš)
-  const firebaseConfig = {
+  
+  // 🔹 Firebase config
+    const firebaseConfig = {
     apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
     authDomain: "login-eb99f.firebaseapp.com",
     projectId: "login-eb99f",
@@ -25,23 +24,35 @@
     measurementId: "G-X78MP0X3G2"
   };
 
-  // Inicijalizacija Firebase-a
+
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
 
-  // Login dugme
+  // ============ GOOGLE LOGIN ============
+  const googleProvider = new GoogleAuthProvider();
   document.getElementById("googleLogin").addEventListener("click", () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        alert("Dobrodošao " + user.email);
-        window.location.href = "index.html"; // prebaci ga na glavni sajt
-      })
-      .catch((error) => {
-        alert("Greška: " + error.message);
-      });
+    signInWithPopup(auth, googleProvider)
+      .catch((err) => alert(err.message));
+  });
+
+  // ============ PRAĆENJE STANJA ============
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Ako je ulogovan
+      document.getElementById("loginLink").style.display = "none";
+      document.getElementById("userMenu").style.display = "flex";
+      document.getElementById("userName").innerText = `Hello, ${user.displayName || user.email}`;
+      if (user.photoURL) document.getElementById("userPic").src = user.photoURL;
+    } else {
+      // Ako nije ulogovan
+      document.getElementById("loginLink").style.display = "flex";
+      document.getElementById("userMenu").style.display = "none";
+    }
+  });
+
+  // ============ LOGOUT ============
+  document.getElementById("logoutBtn").addEventListener("click", (e) => {
+    e.preventDefault(); // da ne refresuje stranicu
+    signOut(auth).catch((error) => console.error(error));
   });
 </script>
-</body>
-</html>

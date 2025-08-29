@@ -57,20 +57,45 @@ window.addEventListener("scroll", () => {
   }
 }, { passive: true });
 
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signOut 
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOFjsN_dC8qlr64BZu_KxvXFC-5vm_FVQ",
+    authDomain: "login-eb99f.firebaseapp.com",
+    projectId: "login-eb99f",
+    storageBucket: "login-eb99f.firebasestorage.app",
+    messagingSenderId: "949710857431",
+    appId: "1:949710857431:web:827bda1f200ff8923ffc92",
+    measurementId: "G-X78MP0X3G2"
+  };
+
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // 👤 Praćenje usera
+  // Praćenje usera
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      document.getElementById("loginLink").style.display = "none";
-      document.getElementById("userMenu").style.display = "flex";
-      document.getElementById("userName").innerText = `Hello, ${user.displayName || user.email}`;
-      if (user.photoURL) document.getElementById("userPic").src = user.photoURL;
-    } else {
-      document.getElementById("loginLink").style.display = "flex";
-      document.getElementById("userMenu").style.display = "none";
+  if (user) {
+    // Ako je ulogovan
+    document.getElementById("loginLink").style.display = "none";
+    document.getElementById("userMenu").style.display = "flex";
+
+    const name = user.displayName ? user.displayName : user.email;
+    document.getElementById("userName").innerText = `Hello, ${name}`;
+
+    if (user.photoURL) {
+      document.getElementById("userPic").src = user.photoURL;
     }
+  } else {
+    // Ako nije ulogovan
+    document.getElementById("loginLink").style.display = "flex";
+    document.getElementById("userMenu").style.display = "none";
+  }
   });
 
   // 🚪 Logout

@@ -100,8 +100,8 @@ a{
 .pointer-down{
     width: 20px;
     height: 20px;
-    margin-top: 40px;
-    margin-left: 2px;
+    margin-top: 50px;
+    margin-left: 20px;
 }
 .pointer-down1{
     width: 20px;
@@ -408,8 +408,7 @@ a .picture6:hover{
     height: 500px;
     width: 400px;
     gap:80px;
-    margin-top: 15%;
-    margin-left: 42%;
+    margin: 350px auto 0 auto;
     border-radius: 5%;
     background-color: white;
     opacity: 90%;
